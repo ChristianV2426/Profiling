@@ -1,0 +1,1 @@
+gcc -mavx -fPIC -shared -o multescalar.so multescalar.c

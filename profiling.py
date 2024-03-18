@@ -1,12 +1,26 @@
+"""
+    Infraestructuras Paralelas y Distribuidas - 750023C-01
+    Tarea Profiling
+
+    Autores: 
+    Samuel Galindo Cuevas - 2177491
+    Nicolás Herrera Marulanda - 2182551
+    Christian David Vargas Gutiérrez - 2179172
+
+    Profesor:
+    John Alexander Sanabria PhD
+"""
+
 import ctypes
 import timeit
 import numpy as np
 
 VECTORSIZE = 10000000
 
+
 def python_execution():
     # Initialization
-    vector = [i+1 for i in range(VECTORSIZE)]
+    vector = [i + 1 for i in range(VECTORSIZE)]
     scalar = 2
 
     # Execution and profiling
@@ -16,9 +30,10 @@ def python_execution():
 
     return final_time - initial_time
 
+
 def numpy_execution():
     # Initialization
-    vector = np.array([i+1 for i in range(VECTORSIZE)])
+    vector = np.array([i + 1 for i in range(VECTORSIZE)])
     scalar = 2
 
     # Execution and profiling
@@ -27,16 +42,16 @@ def numpy_execution():
     final_time = timeit.default_timer()
 
     # Checking results
-    assert((result == [i * scalar for i in vector]).all())
+    assert (result == [i * scalar for i in vector]).all()
 
     return final_time - initial_time
 
 
 def shared_c_execution():
-    function = ctypes.CDLL('./multescalar.so')
+    function = ctypes.CDLL("./multescalar.so")
 
     # Python initialization
-    vector = [i+1 for i in range(VECTORSIZE)]
+    vector = [i + 1 for i in range(VECTORSIZE)]
     scalar = 2
     result = [0] * VECTORSIZE
 
@@ -53,19 +68,23 @@ def shared_c_execution():
 
     # Checking results
     python_result = [c_result[i] for i in range(VECTORSIZE)]
-    assert(python_result[:] == [i * scalar for i in vector[:]])
+    assert python_result[:] == [i * scalar for i in vector[:]]
 
     return final_time - initial_time
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     python_time = python_execution()
     numpy_time = numpy_execution()
     shared_c_time = shared_c_execution()
 
-    print(f'Python execution time: {python_time:.5f}\n'
-          f'Numpy execution time: {numpy_time:.5f}\n'
-          f'Shared C execution time: {shared_c_time:.5f}\n')
+    print(
+        f"Python execution time: {python_time:.5f}\n"
+        f"Numpy execution time: {numpy_time:.5f}\n"
+        f"Shared C execution time: {shared_c_time:.5f}\n"
+    )
 
-    print(f'Numpy speedup: {python_time / numpy_time:.2f}\n'
-          f'Shared C speedup: {python_time / shared_c_time:.2f}\n') 
+    print(
+        f"Numpy speedup: {python_time / numpy_time:.2f}\n"
+        f"Shared C speedup: {python_time / shared_c_time:.2f}\n"
+    )

@@ -1,0 +1,33 @@
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pyc
+*.pyo
+*.pyz
+*.pywz
+*.pyw
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pywz
+*.pyw
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pywz
+*.pyw
+*.sqlite3
+
+# C
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dll
+*.dylib

@@ -1,11 +1,38 @@
+/*
+    Infraestructuras Paralelas y Distribuidas - 750023C-01
+    Tarea Profiling
+
+    Autores: 
+    Samuel Galindo Cuevas - 2177491
+    Nicolás Herrera Marulanda - 2182551
+    Christian David Vargas Gutiérrez - 2179172
+
+    Profesor:
+    John Alexander Sanabria PhD
+"""
+*/
+
 #include <immintrin.h>
 #include <stdio.h>
 #include <assert.h>
 
 // Function to perform vector-scalar multiplication
 void vectorScalarMultiply(const double* vector, double scalar, double* result, int length) {
+    // Ensure the length is a multiple of 4 for proper alignment
+    int alignedLength = (length + 3) & ~3;
 
-    for (int i = 0; i < length; i ++) {
-      result[i] = vector[i] * scalar;
+    // Loop through the vector in 4-element chunks
+    for (int i = 0; i < alignedLength; i += 4) {
+        // Load the vector chunk into AVX register
+        __m256d vec = _mm256_loadu_pd(vector + i);
+
+        // Broadcast the scalar value to all elements of another AVX register
+        __m256d scalarVec = _mm256_broadcast_sd(&scalar);
+
+        // Perform element-wise multiplication
+        __m256d resultVec = _mm256_mul_pd(vec, scalarVec);
+
+        // Store the result back to memory
+        _mm256_storeu_pd(result + i, resultVec);
     }
 }

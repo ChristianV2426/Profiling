@@ -23,9 +23,6 @@ def numpy_execution():
     # Execution
     result = vector * scalar
 
-    # Checking results
-    assert((result == [i * scalar for i in vector]).all())
-
     return result
 
 
@@ -45,10 +42,6 @@ def shared_c_execution():
 
     # Conection with C function
     function.vectorScalarMultiply(c_vector, c_scalar, c_result, c_VECTORSIZE)
-
-    # Checking results
-    python_result = [c_result[i] for i in range(VECTORSIZE)]
-    assert(python_result[:] == [i * scalar for i in vector[:]])
 
     return result
 

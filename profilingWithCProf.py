@@ -51,17 +51,17 @@ if __name__ == '__main__':
     #Profiling
     profile1 = profile.Profile()
     profile1.enable()
-    python_time = python_execution()
+    python_execution()
     profile1.disable()
 
     profile2 = profile.Profile()
     profile2.enable()
-    numpy_time = numpy_execution()
+    numpy_execution()
     profile2.disable()
 
     profile3 = profile.Profile()
     profile3.enable()
-    shared_c_time = shared_c_execution()
+    shared_c_execution()
     profile3.disable()
 
     print(f"Python execution time: ")
@@ -76,4 +76,8 @@ if __name__ == '__main__':
     stats3 = pstats.Stats(profile3).sort_stats('cumulative')
     stats3.print_stats()
 
+    speedUpNumpy = stats1.total_tt / stats2.total_tt
+    speedUpAvx = stats1.total_tt / stats3.total_tt
 
+    print(f"SpeedUp Numpy: {speedUpNumpy}")
+    print(f"SpeedUp AVX: {speedUpAvx}")
